@@ -36,12 +36,20 @@ DROP TABLE IF EXISTS comentarios CASCADE;
 
 CREATE TABLE comentarios
 (
-
+    id bigserial PRIMARY KEY
+   ,texto varchar(255) NOT NULL
+   ,usuario_id bigint NOT NULL REFERENCES usuarios (id)
+   ,envio_id bigint NOT NULL REFERENCES envios (id)
+   ,created_at timestamp(0) NOT NULL DEFAULT current_timestamp
+   ,updated_at timestamp(0)
 );
 
 DROP TABLE IF EXISTS movimientos CASCADE;
 
 CREATE TABLE movimientos
 (
-    
+    usuario_id bigint NOT NULL REFERENCES usuarios (id)
+   ,envio_id bigint NOT NULL REFERENCES envios (id)
+   ,created_at timestamp(0) NOT NULL DEFAULT current_timestamp,
+   PRIMARY KEY (usuario_id, envio_id)
 );
