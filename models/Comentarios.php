@@ -2,8 +2,6 @@
 
 namespace app\models;
 
-use Yii;
-
 /**
  * This is the model class for table "comentarios".
  *
@@ -50,7 +48,7 @@ class Comentarios extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'texto' => 'Texto',
+            'texto' => 'Texto de la noticia',
             'usuario_id' => 'Usuario ID',
             'envio_id' => 'Envio ID',
             'created_at' => 'Created At',
