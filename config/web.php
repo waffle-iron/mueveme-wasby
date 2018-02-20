@@ -10,9 +10,9 @@ $config = [
     'bootstrap' => ['log'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
-        '@npm'   => '@vendor/npm-asset',
+        '@npm' => '@vendor/npm-asset',
     ],
-    'language' => 'es-ES',
+    'language' => $params['language'],
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -49,7 +49,10 @@ $config = [
         'log' => $log,
         'db' => $db,
         'formatter' => [
-            'timeZone' => 'Europe/Madrid',
+            'dateFormat' => $params['dateFormat'],
+            'timeFormat' => $params['timeFormat'],
+            'datetimeFormat' => $params['datetimeFormat'],
+            'timeZone' => $params['timeZone'],
         ],
         /*
         'urlManager' => [
