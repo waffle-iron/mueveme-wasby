@@ -29,8 +29,16 @@ class UsuariosController extends Controller
             ],
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['create'],
+                'only' => ['update','create'],
                 'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['update'],
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            return $_GET['id'] === Yii::$app->user->identity->id;
+                        },
+                    ],
                     [
                         'allow' => true,
                         'actions' => ['create'],

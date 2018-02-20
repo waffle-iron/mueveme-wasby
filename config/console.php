@@ -11,11 +11,17 @@ $config = [
     'controllerNamespace' => 'app\commands',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
-        '@npm'   => '@vendor/npm-asset',
+        '@npm' => '@vendor/npm-asset',
         '@tests' => '@app/tests',
     ],
-    'language' => 'es-ES',
+    'language' => $params['language'],
     'components' => [
+        'formatter' => [
+                'dateFormat' => $params['dateFormat'],
+                'timeFormat' => $params['timeFormat'],
+                'datetimeFormat' => $params['datetimeFormat'],
+                'timeZone' => $params['timeZone'],
+        ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
@@ -26,7 +32,7 @@ $config = [
     'controllerMap' => [
         'fixture' => [ // Fixture generation command line.
             'class' => 'yii\faker\FixtureController',
-            'language' => 'es_ES',
+            'language' => $params['language'],
         ],
     ],
 ];
