@@ -2,10 +2,8 @@
 
 namespace app\models;
 
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Envios;
 
 /**
  * EnviosSearch represents the model behind the search form of `app\models\Envios`.
@@ -33,7 +31,7 @@ class EnviosSearch extends Envios
     }
 
     /**
-     * Creates data provider instance with search query applied
+     * Creates data provider instance with search query applied.
      *
      * @param array $params
      *

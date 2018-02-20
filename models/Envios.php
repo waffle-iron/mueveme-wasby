@@ -2,6 +2,11 @@
 
 namespace app\models;
 
+use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
+use yii\db\Expression;
+
 /**
  * This is the model class for table "envios".
  *
@@ -20,6 +25,7 @@ namespace app\models;
  */
 class Envios extends \yii\db\ActiveRecord
 {
+    public $numEnvios;
     /**
      * {@inheritdoc}
      */
@@ -34,13 +40,26 @@ class Envios extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['url', 'titulo', 'entradilla', 'usuario_id'], 'required'],
-            [['usuario_id'], 'default', 'value' => null],
-            [['usuario_id'], 'integer'],
+            [['url', 'titulo', 'entradilla'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
             [['url', 'titulo', 'entradilla'], 'string', 'max' => 255],
             [['url'], 'url'],
             [['usuario_id'], 'exist', 'skipOnError' => true, 'targetClass' => Usuarios::className(), 'targetAttribute' => ['usuario_id' => 'id']],
+        ];
+    }
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ],
+                // if you're using datetime instead of UNIX timestamp:
+                'value' => new Expression('NOW()'),
+            ],
         ];
     }
 
@@ -53,6 +72,7 @@ class Envios extends \yii\db\ActiveRecord
             'id' => 'ID',
             'url' => 'Url',
             'titulo' => 'Titulo',
+            'numEnvios' => 'Número de movimientos',
             'entradilla' => 'Entradilla',
             'usuario_id' => 'Usuario ID',
             'created_at' => 'Created At',
@@ -90,5 +110,22 @@ class Envios extends \yii\db\ActiveRecord
     public function getUsuarios()
     {
         return $this->hasMany(Usuarios::className(), ['id' => 'usuario_id'])->viaTable('movimientos', ['envio_id' => 'id']);
+    }
+
+    public function getNumEnvios()
+    {
+        return $this->getMovimientos()->count();
+    }
+
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if ($insert) {
+                $this->usuario_id = Yii::$app->user->identity->id;
+            }
+            return true;
+        }
+        return false;
     }
 }
