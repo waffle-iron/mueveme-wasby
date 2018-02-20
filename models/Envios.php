@@ -25,6 +25,7 @@ use yii\db\Expression;
  */
 class Envios extends \yii\db\ActiveRecord
 {
+    public $numEnvios;
     /**
      * {@inheritdoc}
      */
@@ -71,6 +72,7 @@ class Envios extends \yii\db\ActiveRecord
             'id' => 'ID',
             'url' => 'Url',
             'titulo' => 'Titulo',
+            'numEnvios' => 'Número de movimientos',
             'entradilla' => 'Entradilla',
             'usuario_id' => 'Usuario ID',
             'created_at' => 'Created At',
@@ -109,6 +111,13 @@ class Envios extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Usuarios::className(), ['id' => 'usuario_id'])->viaTable('movimientos', ['envio_id' => 'id']);
     }
+
+    public function getNumEnvios()
+    {
+        return $this->getMovimientos()->count();
+    }
+
+
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {
