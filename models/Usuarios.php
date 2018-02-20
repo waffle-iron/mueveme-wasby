@@ -41,7 +41,7 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
             [['created_at', 'updated_at'], 'safe'],
             [['nombre', 'password', 'email'], 'string', 'max' => 255],
             [['nombre'], 'unique'],
-            //[['password_repeat'], 'compare', 'compareAttribute' => 'password'],
+            [['password_repeat'], 'compare', 'compareAttribute' => 'password'],
         ];
     }
 
@@ -128,5 +128,15 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
     public function getEnvios0()
     {
         return $this->hasMany(Envios::className(), ['id' => 'envio_id'])->viaTable('movimientos', ['usuario_id' => 'id']);
+    }
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if ($insert) {
+                $this->password = Yii::$app->security->generatePasswordHash($this->password);
+            }
+            return true;
+        }
+        return false;
     }
 }
