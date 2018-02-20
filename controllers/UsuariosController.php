@@ -36,7 +36,7 @@ class UsuariosController extends Controller
                         'actions' => ['update'],
                         'roles' => ['@'],
                         'matchCallback' => function ($rule, $action) {
-                            return $_GET['id'] === Yii::$app->user->identity->id;
+                            return $_GET['id'] == Yii::$app->user->identity->id;
                         },
                     ],
                     [
