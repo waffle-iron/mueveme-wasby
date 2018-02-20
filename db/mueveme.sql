@@ -53,3 +53,7 @@ CREATE TABLE movimientos
    ,created_at timestamp(0) NOT NULL DEFAULT current_timestamp,
    PRIMARY KEY (usuario_id, envio_id)
 );
+
+INSERT INTO usuarios (nombre, password, email, created_at, updated_at)
+    VALUES ('pepe', crypt('pepe', gen_salt('bf', 13)), 'pepe@pepe.com', current_timestamp, null)
+         , ('juan', crypt('juan', gen_salt('bf', 13)), 'juan@juan.com', current_timestamp, null);
