@@ -29,7 +29,7 @@ class UsuariosController extends Controller
             ],
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['update','create'],
+                'only' => ['update', 'create'],
                 'rules' => [
                     [
                         'allow' => true,
@@ -113,6 +113,7 @@ class UsuariosController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model->password = '';
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
