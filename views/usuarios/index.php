@@ -32,7 +32,19 @@ $this->params['breadcrumbs'][] = $this->title;
             'created_at',
             //'updated_at',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{view} {update} {delete}',
+                'buttons' => [
+                    'update' => function ($url, $model, $key){
+                        if ($model->id == Yii::$app->user->identity->id)
+                            return Html::a('', ['usuarios/update', 'id' => $model->id], ['class' => 'glyphicon glyphicon-pencil']);
+                            else {
+                                return '';
+                            }
+                    },
+                ],
+            ],
         ],
     ]); ?>
 </div>
